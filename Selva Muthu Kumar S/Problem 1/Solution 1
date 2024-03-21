@@ -1,0 +1,61 @@
+package Practice7;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class New {
+
+    public static boolean countMismatches(String substring, String virus) {
+        int count = 0;
+        for (int i = 0; i < substring.length(); i++) {
+            if (substring.charAt(i) != virus.charAt(i)) {
+                count++;
+                if (count > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void virusIndices(List<String[]> testCases) {
+        for (String[] testCase : testCases) {
+            String p = testCase[0];
+            String v = testCase[1];
+            List<Integer> matches = new ArrayList<>();
+            for (int i = 0; i <= p.length() - v.length(); i++) {
+                String substring = p.substring(i, i + v.length());
+                if (substring.equals(v) || countMismatches(substring, v)) {
+                    matches.add(i);
+                }
+            }
+            if (!matches.isEmpty()) {
+                System.out.println(String.join(" ", matches.stream().map(String::valueOf).toList()));
+            } else {
+                System.out.println("No Match!");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // Sample Input 0
+        List<String[]> testCases0 = List.of(
+                new String[]{"abbab", "ba"},
+                new String[]{"hello", "world"},
+                new String[]{"banana", "nan"}
+        );
+
+        // Sample Input 1
+        List<String[]> testCases1 = List.of(
+                new String[]{"cgatcg", "gc"},
+                new String[]{"atcgatcga", "cgg"},
+                new String[]{"aardvark", "ab"}
+        );
+
+        System.out.println("Sample Output 0:");
+        virusIndices(testCases0);
+
+        System.out.println("\nSample Output 1:");
+        virusIndices(testCases1);
+    }
+}
